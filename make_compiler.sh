@@ -6,7 +6,7 @@ PREFIX="$SCRIPT_PATH/compiler/run"
 PATH="$PREFIX/bin:$PATH"
 
 prep_environment() {
-  cd "$PREFIX" || exit
+  cd "$SCRIPT_PATH" || exit
   mkdir -p compiler/build
 }
 
