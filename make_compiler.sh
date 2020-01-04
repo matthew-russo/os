@@ -6,7 +6,7 @@ PREFIX="$SCRIPT_PATH/compiler/run"
 PATH="$PREFIX/bin:$PATH"
 
 prep_environment() {
-  cd "$(get_source_dir)" || exit
+  cd "$PREFIX" || exit
   mkdir -p compiler/build
 }
 
