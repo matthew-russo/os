@@ -64,11 +64,11 @@ void terminal_shiftup()
 
 void terminal_linefeed()
 {
+        terminal_column = 0;
         if (++terminal_row >= VGA_HEIGHT)
         {
                 terminal_shiftup();
                 --terminal_row;
-                terminal_column = 0;
         }
 }
 
