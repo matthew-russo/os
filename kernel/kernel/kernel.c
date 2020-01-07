@@ -6,9 +6,12 @@
  
 void kernel_main(void)
 {
-        gdt_init();
-        idt_init();
         terminal_initialize();
+        puts("terminal initialized");
+        gdt_init();
+        puts("gdt initialized");
+        idt_init();
+        puts("idt initialized");
 
         asm volatile("int $0x03");
         // asm volatile("int $0x04");

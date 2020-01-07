@@ -5,9 +5,9 @@
 
 void isr_handler(struct registers regs)
 {
-        printf("recieved interrupt: ");
         char s[32]; 
         itoa(regs.int_no, s);
+        printf("recieved interrupt: ");
         printf(s);
         printf("\n");
 } 
