@@ -9,6 +9,8 @@ extern "C" {
  
 __attribute__((__noreturn__))
 void abort(void);
+
+void itoa(int n, char s[]);
  
 #ifdef __cplusplus
 }
