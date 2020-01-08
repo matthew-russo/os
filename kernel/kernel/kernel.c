@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <sys/io.h>
  
 #include <kernel/tty.h>
 #include <kernel/gdt.h>
@@ -43,4 +44,6 @@ void kernel_main(void)
         printf("28\n");
         printf("29\n");
         printf("30\n");
+
+        outb(0x64, 0xEE);
 }
