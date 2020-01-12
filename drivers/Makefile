@@ -1,5 +1,5 @@
 DEFAULT_HOST=$(shell ../default-host.sh)
-HOST?=DEFAULT_HOST
+HOST?=$(DEFAULT_HOST)
 HOSTARCH=$(shell ../target-triplet-to-arch.sh $(HOST))
  
 CFLAGS?=-O2 -g
@@ -16,7 +16,7 @@ CFLAGS:=$(CFLAGS) -ffreestanding -Wall -Wextra
 CPPFLAGS:=$(CPPFLAGS) -Iinclude
  
 ARCHDIR=arch/$(HOSTARCH)
-
+ 
 include $(ARCHDIR)/make.config
  
 CFLAGS:=$(CFLAGS) $(ARCH_CFLAGS)
@@ -46,7 +46,7 @@ libdrivers.a: $(OBJS)
 .S.o:
 	$(CC) -MD -c $< -o $@ $(CFLAGS) $(CPPFLAGS)
 
-.clean:
+clean:
 	rm -f $(BINARIES) *.a
 	rm -f $(OBJS) *.o */*.o */*/*.o
 	rm -f $(OBJS:.o=.d) *.d */*.d */*/*.d

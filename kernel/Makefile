@@ -1,5 +1,5 @@
 DEFAULT_HOST=$(shell ../default-host.sh)
-HOST?=DEFAULT_HOST
+HOST?=$(DEFAULT_HOST)
 HOSTARCH=$(shell ../target-triplet-to-arch.sh $(HOST))
  
 CFLAGS?=-O2 -g
@@ -52,8 +52,6 @@ $(KERNEL_OBJS) \
 $(LIBS) \
 $(ARCHDIR)/crtend.o \
 $(ARCHDIR)/crtn.o \
- 
-$(info $$LINK_LIST is [${LINK_LIST}])
 
 .PHONY: all clean install install-headers install-kernel
 .SUFFIXES: .o .c .S

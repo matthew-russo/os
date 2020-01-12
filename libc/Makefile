@@ -1,5 +1,5 @@
 DEFAULT_HOST=$(shell ../default-host.sh)
-HOST?=DEFAULT_HOST
+HOST?=$(DEFAULT_HOST)
 HOSTARCH=$(shell ../target-triplet-to-arch.sh $(HOST))
  
 CFLAGS?=-O2 -g
