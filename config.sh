@@ -1,5 +1,5 @@
-SYSTEM_HEADER_PROJECTS="libc kernel"
-PROJECTS="libc kernel"
+SYSTEM_HEADER_PROJECTS="libc drivers kernel"
+PROJECTS="libc drivers kernel"
 
 export PATH=$(pwd)/deps/compiler/run/bin:$PATH
 export PATH=$(pwd)/deps/compiler/run/i686-elf/bin/:$PATH

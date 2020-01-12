@@ -18,7 +18,7 @@ static uint16_t* terminal_buffer;
 
 void terminal_clearrow(int row)
 {
-        for (int col = 0; col < VGA_WIDTH; col++)
+        for (size_t col = 0; col < VGA_WIDTH; col++)
         {
                 const size_t index = row * VGA_WIDTH + col;
                 terminal_buffer[index] = vga_entry(' ', terminal_color);
@@ -49,9 +49,9 @@ void terminal_putentryat(unsigned char c, uint8_t color, size_t x, size_t y)
 
 void terminal_shiftup()
 {
-        for (int row = 0; row < VGA_HEIGHT - 1; row++)
+        for (size_t row = 0; row < VGA_HEIGHT - 1; row++)
         {
-                for (int col = 0; col < VGA_WIDTH; col++)
+                for (size_t col = 0; col < VGA_WIDTH; col++)
                 {
                         const size_t old_index = (row + 1) * VGA_WIDTH + col;
                         const size_t new_index = row * VGA_WIDTH + col;

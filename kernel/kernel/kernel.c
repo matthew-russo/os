@@ -4,6 +4,8 @@
 #include <kernel/tty.h>
 #include <kernel/gdt.h>
 #include <kernel/idt.h>
+
+#include <drivers/serial.h>
  
 void kernel_main(void)
 {
@@ -44,6 +46,8 @@ void kernel_main(void)
         printf("28\n");
         printf("29\n");
         printf("30\n");
+
+        serial_writestring("hello serial world");
 
         outb(0x64, 0xEE);
 }

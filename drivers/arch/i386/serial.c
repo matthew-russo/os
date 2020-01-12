@@ -1,6 +1,8 @@
 #include <stdint.h>
-
+#include <stdbool.h>
+#include <string.h>
 #include <sys/io.h>
+#include <drivers/serial.h>
 
 #define SERIAL_DATA_REGISTER             0x3F8
 #define SERIAL_BAUD_DIVISOR_LSB          0x3F8
@@ -32,7 +34,7 @@ const uint8_t SERIAL_LINE_TRANS_HOLDING_EMPTY = 0b00100000;
 const uint8_t SERIAL_LINE_TRANS_EMPTY         = 0b01000000;
 const uint8_t SERIAL_LINE_IMPENDING           = 0b10000000;
 
-void serial_init() {
+void serial_init(void) {
         outb(SERIAL_INTERRUPT_ENABLE_REGISTER, 0x00); // Disable all interrupts
         outb(SERIAL_LINE_CONTROL_REGISTER, 0x80);     // Enable DLAB (set baud rate divisor)
         outb(SERIAL_BAUD_DIVISOR_LSB, 0x03);          // Set divisor to 3 (lo byte) 38400 baud
@@ -42,25 +44,32 @@ void serial_init() {
         outb(SERIAL_MODEM_CONTROL_REGISTER, 0x0B);    // IRQs enabled, RTS/DSR set
 }
 
-bool serial_received()
+bool serial_received(void)
 {
         return inb(SERIAL_LINE_STATUS_REGISTER) & SERIAL_LINE_DATA_READY;
 }
 
-uint8_t serial_read()
+uint8_t serial_read(void)
 {
         while (!serial_received());
         return inb(SERIAL_DATA_REGISTER);
 }
 
-bool is_transmit_empty()
+bool is_transmit_empty(void)
 {
-        return inb(SERIAL_LINE_REGISTER_STATUS) & SERIAL_LINE_TRANS_HOLDING_EMPTY;
+        return inb(SERIAL_LINE_STATUS_REGISTER) & SERIAL_LINE_TRANS_HOLDING_EMPTY;
 }
 
-void serial_write(uint8_t b)
+void serial_writechar(uint8_t b)
 {
         while (!is_transmit_empty());
-        return outb(SERIAL_DATA_REGISTER, b);
+        outb(SERIAL_DATA_REGISTER, b);
 }
 
+void serial_writestring(char *str)
+{
+        for (size_t i = 0; i < strlen(str); i++)
+        {
+                serial_writechar(str[i]);
+        }
+}
