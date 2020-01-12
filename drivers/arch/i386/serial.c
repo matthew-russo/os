@@ -3,7 +3,9 @@
 #include <sys/io.h>
 
 #define SERIAL_DATA_REGISTER             0x3F8
+#define SERIAL_BAUD_DIVISOR_LSB          0x3F8
 #define SERIAL_INTERRUPT_ENABLE_REGISTER SERIAL_DATA_REGISTER + 1
+#define SERIAL_BAUD_DIVISOR_MSB          SERIAL_DATA_REGISTER + 1
 #define SERIAL_INTERRUPT_ID_FIFO_CONTROL SERIAL_DATA_REGISTER + 2
 #define SERIAL_LINE_CONTROL_REGISTER     SERIAL_DATA_REGISTER + 3
 #define SERIAL_MODEM_CONTROL_REGISTER    SERIAL_DATA_REGISTER + 4
@@ -29,6 +31,16 @@ const uint8_t SERIAL_LINE_BREAK               = 0b00010000;
 const uint8_t SERIAL_LINE_TRANS_HOLDING_EMPTY = 0b00100000;
 const uint8_t SERIAL_LINE_TRANS_EMPTY         = 0b01000000;
 const uint8_t SERIAL_LINE_IMPENDING           = 0b10000000;
+
+void serial_init() {
+        outb(SERIAL_INTERRUPT_ENABLE_REGISTER, 0x00); // Disable all interrupts
+        outb(SERIAL_LINE_CONTROL_REGISTER, 0x80);     // Enable DLAB (set baud rate divisor)
+        outb(SERIAL_BAUD_DIVISOR_LSB, 0x03);          // Set divisor to 3 (lo byte) 38400 baud
+        outb(SERIAL_BAUD_DIVISOR_MSB, 0x00);          //                  (hi byte)
+        outb(SERIAL_LINE_CONTROL_REGISTER, 0x03);     // 8 bits, no parity, one stop bit
+        outb(SERIAL_INTERRUPT_ID_FIFO_CONTROL, 0xC7); // Enable FIFO, clear them, with 14-byte threshold
+        outb(SERIAL_MODEM_CONTROL_REGISTER, 0x0B);    // IRQs enabled, RTS/DSR set
+}
 
 bool serial_received()
 {
