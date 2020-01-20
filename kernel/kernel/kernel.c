@@ -8,8 +8,12 @@
 #include <kernel/gdt.h>
 #include <kernel/idt.h>
 #include <kernel/memory_phys.h>
+#include <kernel/memory_virt.h>
 
 #include <drivers/serial.h>
+
+extern void loadPageDirectory(uint32_t *);
+extern void enablePaging();
  
 void kernel_main(uint32_t mboot_magic, void *mboot_header)
 {
@@ -38,6 +42,11 @@ void kernel_main(uint32_t mboot_magic, void *mboot_header)
     itoa(frame_ptr, c);
     printf(c);
     printf("\n");
+    
+    uint32_t * page_directory = mem_virt_directory_init();
+    loadPageDirectory(page_directory);
+    enablePaging();
+    puts("virtual memory initialized");
 
     serial_writestring("hello serial world");
 
