@@ -11,7 +11,6 @@
 
 void memory_phys_init(uint32_t mboot_magic, void *mboot_header);
 
-
 /**
  * A function to iterate through the multiboot memory map.
  * If `mode` is set to MMAP_GET_NUM, it will return the frame number for the
