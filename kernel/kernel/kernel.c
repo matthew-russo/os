@@ -10,17 +10,23 @@
 #include <kernel/memory_phys.h>
 
 #include <drivers/serial.h>
+#include <drivers/pic.h>
 
 void kernel_main(uint32_t mboot_magic, void *mboot_header)
 {
     terminal_initialize();
     puts("terminal initialized");
 
-    // gdt_init();
-    // puts("gdt initialized");
+    pic_remap(0x20, 0x28);
+    puts("pic remapped");
 
-    // idt_init();
-    // puts("idt initialized");
+    gdt_init();
+    puts("gdt initialized");
+
+    idt_init();
+    puts("idt initialized");
+
+    asm("int $3");
 
     // memory_phys_init(mboot_magic, mboot_header);
     // puts("physical memory initialized");
